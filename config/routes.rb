@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'sessions/new'
+  get 'sessions/create'
   get 'games/new'
   get 'games/index'
   get 'games/create'
+  get 'games/show'
   resources :sessions, only: [ :new, :create ]
 
   root 'sessions#new'
