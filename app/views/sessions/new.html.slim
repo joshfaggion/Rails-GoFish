@@ -1,0 +1,7 @@
+h1 Welcome to GoFish
+
+= form_for @user, url: sessions_url do |f|
+  = f.label :name
+  = f.text_field :name, required: true
+
+  = f.submit 'Play'
