@@ -3,5 +3,7 @@ h1 = "Welcome to Game #{@game.id}"
 - if @game.pending?
   p Your game is pending...
   p = "You asked for #{@game['player_count']} players..."
+  - @game.users.each do |user|
+    p = "User is #{user.name}"
 - else
   p Your game is started!
