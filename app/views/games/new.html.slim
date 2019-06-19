@@ -1,2 +1,6 @@
-h1 Games#new
-p Find me in app/views/games/new.html.slim
+h1 Welcome to GoFish
+
+= form_for @game, url: games_url do |f|
+  = f.label "Number of Players"
+  = f.number_field :player_count, required: true, within: 2...7
+  = f.submit 'Create'

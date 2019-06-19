@@ -1,2 +1,13 @@
-h1 Games#index
-p Find me in app/views/games/index.html.slim
+h1 Welcome to Go Fish
+
+= link_to 'Create Game', new_game_url
+
+h2 Pending Games:
+- if @pending_games.blank?
+  p No Pending Games.
+- else
+  - @pending_games.each do |game|
+    - if game.pending?
+      p = "Game #{game.id} - waiting for players"
+    - else
+      p = "Game #{game.id} is in progress"

@@ -1,2 +1,7 @@
-h1 Games#show
-p Find me in app/views/games/show.html.slim
+h1 = "Welcome to Game #{@game.id}"
+
+- if @game.pending?
+  p Your game is pending...
+  p = "You asked for #{@game['player_count']} players..."
+- else
+  p Your game is started!

@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def create
     @user = User.find_or_initialize_by(user_params)
     if @user.save
-      session[:current_user] = @user.id
+      session[:current_user] = @user
       redirect_to games_path, notice: 'Logged in'
     else
       render :new
