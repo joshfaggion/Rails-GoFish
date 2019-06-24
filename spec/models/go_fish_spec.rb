@@ -33,7 +33,7 @@ RSpec.describe Game, type: :model do
     game = GoFish.new(names: ['Charlos', 'Finn'], player_count: 2)
     game.start_game
     state = game.state_for('Finn')
-    expect(state['is_turn']).to be 'false'
+    expect(state['is_turn']).to eq 'false'
     expect(state['player']['cards'].length).to eq 5
   end
 end

@@ -14,7 +14,7 @@ class Game extends React.Component {
   fetchGame(id) {
     fetch(`/games/${id}.json`).then(response => response.json())
       .then(this.handleData.bind(this))
-      .catch(err => console.log(err))
+      .catch(err => console.log(err)) // eslint-disable-line no-console
   }
 
   handleData(data) {
@@ -28,6 +28,7 @@ class Game extends React.Component {
   render() {
     return (
       <div>
+        <h1>Game {this.props.id} - in progress</h1>
         <h3>
           This player is {this.props.playerName}
         </h3>
