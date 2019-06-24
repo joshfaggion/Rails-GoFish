@@ -8,6 +8,6 @@ h2 Pending Games:
 - else
   - @pending_games.each do |game|
     - if game.pending?
-      p = link_to "Join Game #{game.id} - waiting for players", game_path(game.id)
+      p = link_to "Join Game #{game.id} - waiting for players", games_join_path(game.id), method: :post
     - else
       p = "Game #{game.id} is in progress"

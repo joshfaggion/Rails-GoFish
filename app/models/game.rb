@@ -5,10 +5,16 @@ class Game < ApplicationRecord
   scope :pending, -> { where(started_at: nil) }
   scope :in_progress, -> { where.not(started_at: nil).where(finished_at: nil) }
 
+  serialize :go_fish, GoFish
+
   def pending?
     started_at.blank?
   end
 
-  def player_count
+  def start
+    game = GoFish.new(names: users.map(&:name), player_count: player_count)
+    game.start_game
+    update(started_at: Time.now)
+    update(go_fish: game)
   end
 end

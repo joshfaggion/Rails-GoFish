@@ -1,9 +1,11 @@
-h1 = "Welcome to Game #{@game.id}"
+h1 = "Game #{@game.id}"
 
 - if @game.pending?
   p Your game is pending...
   p = "You asked for #{@game['player_count']} players..."
+  p Lobby:
   - @game.users.each do |user|
-    p = "User is #{user.name}"
+    p = "- #{user.name}"
 - else
-  p Your game is started!
+  - player = User.find(session[:current_user]['id'])
+  = react_component'Game', {initialState: @game.go_fish.state_for(player.name), id: @game.id, playerName: player.name }

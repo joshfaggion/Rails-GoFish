@@ -4,5 +4,7 @@ Rails.application.routes.draw do
   resources :games, only: [ :index, :show, :new, :create ] do
     resources :users, only: [ :create ]
   end
+
+  post 'games/join'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

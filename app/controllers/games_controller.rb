@@ -8,25 +8,48 @@ class GamesController < ApplicationController
   end
 
   def create
-    @game = Game.find_or_initialize_by(game_params)
-    @game.users << User.find(session[:current_user]['id'])
+    @game = Game.create(game_params)
+    current_user = User.find(session[:current_user]['id'])
     if @game.save
+      @game.users << current_user
       redirect_to @game, notice: 'Game created'
     else
       render :create
     end
   end
 
-  def show
-    @game = Game.find params[:id]
+  def join
+    game = Game.find params[:format]
+    current_user = User.find(session[:current_user]['id'])
+    unless game.users.include?(current_user)
+      game.users << current_user
+    end
+    if game.users.length == game['player_count']
+      game.start
+    end
+    redirect_to game
   end
 
-  def join
+  def show
     @game = Game.find params[:id]
-    redirect_to @game
+    current_user = User.find(session[:current_user]['id'])
+    respond_to do |format|
+      format.html
+      format.json { render :json => @game.go_fish.state_for(current_user.name) }
+    end
+  end
+
+  def state
+
   end
 
   private
+
+  def pusher_notification
+    pusher_client.trigger('go fish', 'game-changed', {
+      message: "#{current_user.name} took turn"
+    })
+  end
 
   def game_params
     params.require(:game).permit(:player_count)
