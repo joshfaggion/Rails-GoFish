@@ -1,5 +1,8 @@
 require 'rails_helper'
 
+require_relative '../support/game_helper'
+
+
 RSpec.describe 'Create Game', type: :system do
   before do
     driven_by(:rack_test)
@@ -16,27 +19,34 @@ RSpec.describe 'Create Game', type: :system do
   end
 
   it 'allows users to join the game' do
-    session1 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
-    session2 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
-    session3 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
-    session4 = Capybara::Session.new(:selenium_chrome_headless, Rails.application)
+    session1, session2, session3, session4 = GameHelper.initialize_sessions
 
-    [session1, session2, session3, session4].each_with_index do |session, index|
-      session.visit '/'
-      session.fill_in 'Name', with: "Charlos#{index + 1}"
-      session.click_on 'Play'
-    end
+    GameHelper.login_users([session1, session2, session3, session4])
 
     session1.click_on 'Create Game'
     session1.click_on 'Create'
 
-    [session2, session3, session4].each do |session|
-      session.driver.refresh
-      session.click_on 'Join Game 1 - waiting for players'
-    end
+    GameHelper.join_game([session2, session3, session4])
 
     session2.driver.refresh
     expect(session2.text).to include 'Game 1 - in progress'
     expect(session2.text).to include 'Charlos2'
+  end
+
+  it 'plays through a game' do
+    session1, session2, session3, session4 = GameHelper.initialize_sessions
+
+    GameHelper.login_users([session1, session2, session3, session4])
+
+    session1.click_on 'Create Game'
+    session1.click_on 'Create'
+
+    GameHelper.join_game([session2, session3, session4])
+
+    session1.driver.refresh
+    card = session1.find('.player-card').first
+    session1.click_on card
+
+    expect(card).have_css('.selected')
   end
 end
