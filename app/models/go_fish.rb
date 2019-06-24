@@ -82,7 +82,8 @@ class GoFish
   def opponents_to(current_player)
     players = players().map do |player|
       unless player.name == current_player
-        return "#{player.name}" => {
+        return {
+            "name" => player.name,
             "card_amount" => player.cards_left,
             "matches" => player.matches.map(&:as_json)
           }

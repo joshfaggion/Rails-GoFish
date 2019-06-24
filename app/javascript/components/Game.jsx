@@ -1,10 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-
+import Player from '../models/player'
+import PlayerView from './PlayerView'
 
 class Game extends React.Component {
-  componentDidMount() {
-    this.handleData(this.props.initialState)
+  constructor(props) {
+    super(props)
+    this.state = {
+      currentPlayer: new Player(this.props.initialState['player']),
+      opponents: this.props.initialState['opponents'],
+    }
   }
 
   updateGame() {
@@ -18,7 +23,7 @@ class Game extends React.Component {
   }
 
   handleData(data) {
-    console.log(data)
+    console.log(data) // eslint-disable-line no-console
     this.setState(() => ({
       currentPlayer: data['player'],
       opponents: data['opponents'],
@@ -29,9 +34,7 @@ class Game extends React.Component {
     return (
       <div>
         <h1>Game {this.props.id} - in progress</h1>
-        <h3>
-          This player is {this.props.playerName}
-        </h3>
+        <PlayerView player={this.state.currentPlayer} />
       </div>
     )
   }
@@ -39,8 +42,8 @@ class Game extends React.Component {
 
 Game.propTypes = {
   id: PropTypes.number.isRequired,
-  playerName: PropTypes.string.isRequired,
   initialState: PropTypes.object.isRequired,
+  playerName: PropTypes.string.isRequired
 }
 
 export default Game;

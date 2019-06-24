@@ -1,6 +1,5 @@
-h1 = "Game #{@game.id}"
-
 - if @game.pending?
+  h1 = "Game #{@game.id}"
   p Your game is pending...
   p = "You asked for #{@game['player_count']} players..."
   p Lobby:
