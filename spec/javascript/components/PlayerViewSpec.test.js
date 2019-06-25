@@ -14,4 +14,9 @@ describe('PlayerView', () => {
     const wrapper = shallow(<PlayerView player={new Player(playerProps)} />)
     expect(wrapper.text()).toContain('Charlos')
   })
+
+  it('renders a hand', () => {
+    const wrapper = shallow(<PlayerView player={new Player(playerProps)} />)
+    expect(wrapper.find('CardView').length).toBe(2)
+  });
 })

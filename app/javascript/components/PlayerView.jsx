@@ -4,7 +4,7 @@ import CardView from './CardView'
 
 class PlayerView extends React.Component {
   hello() {
-    console.log('hello')
+    return 2 + 2
   }
 
   render() {

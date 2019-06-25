@@ -7,17 +7,17 @@ const suits = ['s', 'h', 'd', 'c']
 const ranks = ['a', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k']
 suits.forEach(suit => array.push(...ranks.map(rank => `${suit}${rank}`)))
 array.forEach((card) => {
-  hash[card] = require(`img/${card}.png`)
+  hash[card] = require(`../img/${card}.png`)
 })
 hash['cardBack'] = require('img/backs_blue.png')
 
 class CardView extends React.Component {
-  hello() {
-    console.log('hello')
+  source() {
+    return hash[this.props.card.value()]
   }
 
   render() {
-    return <img src="#" alt={this.props.card.value()} />
+    return <img src={this.source()} alt={this.props.card.value()} />
   }
 }
 

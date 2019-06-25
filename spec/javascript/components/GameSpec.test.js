@@ -4,7 +4,6 @@ import Game from 'components/Game'
 
 global.fetch = jest.fn(() => new Promise(resolve => resolve()));
 
-
 describe('Game', () => {
   const player = {
     name: 'Josh',
@@ -25,10 +24,5 @@ describe('Game', () => {
   it('updates the state', () => {
     const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
     expect(wrapper.state().currentPlayer.name()).toBe(player.name)
-  });
-
-  it('renders the cards', () => {
-    const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
-    expect(wrapper.find('img').length).toBe(10)
   });
 })

@@ -13,7 +13,7 @@ class Card {
   }
 
   value() {
-    return this._rank + this._suit
+    return this._suit + this._rank
   }
 }
 
