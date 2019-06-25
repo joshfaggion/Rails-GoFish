@@ -7,8 +7,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPlayer: new Player(this.props.initialState['player']),
-      opponents: this.props.initialState['opponents'],
+      currentPlayer: new Player(this.props.playerData['player']),
+      opponents: this.props.playerData['opponents'],
     }
   }
 
@@ -19,7 +19,7 @@ class Game extends React.Component {
   fetchGame(id) {
     fetch(`/games/${id}.json`).then(response => response.json())
       .then(this.handleData.bind(this))
-      .catch(err => console.log(err)) // eslint-disable-line no-console
+      .catch(err => console.error(err)) // eslint-disable-line no-console
   }
 
   handleData(data) {
@@ -42,8 +42,7 @@ class Game extends React.Component {
 
 Game.propTypes = {
   id: PropTypes.number.isRequired,
-  initialState: PropTypes.object.isRequired,
-  playerName: PropTypes.string.isRequired
+  playerData: PropTypes.object.isRequired
 }
 
 export default Game;

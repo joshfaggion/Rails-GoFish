@@ -33,7 +33,7 @@ RSpec.describe 'Create Game', type: :system do
     expect(session2.text).to include 'Charlos2'
   end
 
-  it 'plays through a game' do
+  it 'plays through a turn' do
     session1, session2, session3, session4 = GameHelper.initialize_sessions
 
     GameHelper.login_users([session1, session2, session3, session4])

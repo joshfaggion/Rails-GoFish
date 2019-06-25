@@ -7,4 +7,4 @@
     p = "- #{user.name}"
 - else
   - player = User.find(session[:current_user]['id'])
-  = react_component'Game', {initialState: @game.go_fish.state_for(player.name), id: @game.id, playerName: player.name }
+  = react_component'Game', {playerData: @game.go_fish.state_for(player.name), id: @game.id, playerName: player.name }

@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import CardView from './CardView'
 
 class PlayerView extends React.Component {
   hello() {
@@ -8,13 +9,16 @@ class PlayerView extends React.Component {
 
   render() {
     return (
-      <h1> Hi, my name is {this.props.player.state.name} </h1>
+      <div>
+        <h3><u>{this.props.player.name()}</u></h3>
+        {this.props.player.cards().map(card => <CardView key={card.value()} card={card} />)}
+      </div>
     )
   }
 }
 
 PlayerView.propTypes = {
-  player: PropTypes.object.isRequired
+  player: PropTypes.object.isRequired,
 }
 
 export default PlayerView
