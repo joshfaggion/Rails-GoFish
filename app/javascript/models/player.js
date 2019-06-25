@@ -1,14 +1,16 @@
 import Card from './card'
 
 class Player {
-  constructor(props) {
-    this._name = props['name']
-    this._cards = this.inflateCards(props['cards'])
-    this._matches = this.inflateCards(props['matches'])
+  constructor(player) {
+    this._name = player.name
+    this._cards = this.inflateCards(player.cards)
+    this._matches = this.inflateCards(player.matches)
   }
 
+  // Test the outcome of the construction and result of inflatedCards
+  // Private method?
   inflateCards(cards) {
-    return cards.map(card => new Card(card['rank'], card['suit']))
+    return cards.map(card => new Card(card.rank, card.suit))
   }
 
   name() {

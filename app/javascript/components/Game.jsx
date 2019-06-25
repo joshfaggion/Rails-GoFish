@@ -7,8 +7,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPlayer: new Player(this.props.playerData['player']),
-      opponents: this.props.playerData['opponents'],
+      currentPlayer: new Player(this.props.playerData.player),
+      opponents: this.props.playerData.opponents,
     }
   }
 
@@ -25,8 +25,8 @@ class Game extends React.Component {
   handleData(data) {
     console.log(data) // eslint-disable-line no-console
     this.setState(() => ({
-      currentPlayer: data['player'],
-      opponents: data['opponents'],
+      currentPlayer: data.player,
+      opponents: data.opponents,
     }))
   }
 
@@ -42,7 +42,7 @@ class Game extends React.Component {
 
 Game.propTypes = {
   id: PropTypes.number.isRequired,
-  playerData: PropTypes.object.isRequired
+  playerData: PropTypes.object.isRequired,
 }
 
 export default Game;

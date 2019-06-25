@@ -17,18 +17,18 @@ describe('Game', () => {
     player,
   }
 
-  it('renders a player\'s title', () => {
-    const wrapper = shallow(<Game initialState={initialState} playerName="Josh" id={1} />)
-    expect(wrapper.text()).toContain('Josh')
+  it('renders a player\'s view', () => {
+    const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
+    expect(wrapper.find('PlayerView').length).toBe(1)
   })
 
   it('updates the state', () => {
-    const wrapper = shallow(<Game initialState={initialState} playerName="Josh" id={1} />)
-    expect(wrapper.state().currentPlayer).toBe(player)
+    const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
+    expect(wrapper.state().currentPlayer.name()).toBe(player.name)
   });
 
   it('renders the cards', () => {
-    const wrapper = shallow(<Game initialState={initialState} playerName="Josh" id={1} />)
+    const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
     expect(wrapper.find('img').length).toBe(10)
   });
 })
