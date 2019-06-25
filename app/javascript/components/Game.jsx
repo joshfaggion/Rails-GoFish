@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Player from '../models/player'
 import PlayerView from './PlayerView'
+import BotView from './BotView'
+import Bot from '../models/Bot'
 
 class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
       currentPlayer: new Player(this.props.playerData.player),
-      opponents: this.props.playerData.opponents,
+      opponents: this.props.playerData.opponents.map(opponent => new Bot(opponent)),
     }
   }
 
@@ -34,6 +36,7 @@ class Game extends React.Component {
     return (
       <div>
         <h1>Game {this.props.id} - in progress</h1>
+        {this.state.opponents.map(bot => <BotView key={bot.name()} bot={bot} />)}
         <PlayerView player={this.state.currentPlayer} />
       </div>
     )

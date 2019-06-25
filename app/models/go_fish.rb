@@ -54,7 +54,7 @@ class GoFish
     {
       'player' => player.as_json,
       'is_turn' => "#{is_turn?(player)}",
-      'opponents' => opponents_to(player)
+      'opponents' => opponents_to(player_name)
     }
   end
 
@@ -79,16 +79,17 @@ class GoFish
 
   private
 
-  def opponents_to(current_player)
-    players = players().map do |player|
-      unless player.name == current_player
-        return {
+  def opponents_to(player_name)
+    arr = []
+    players().each do |player|
+      unless player.name == player_name
+        arr.push({
             "name" => player.name,
             "card_amount" => player.cards_left,
             "matches" => player.matches.map(&:as_json)
-          }
+          })
       end
     end
-    return players
+    return arr
   end
 end

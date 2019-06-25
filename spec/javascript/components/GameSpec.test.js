@@ -14,6 +14,11 @@ describe('Game', () => {
   const initialState = {
     is_turn: 'true',
     player,
+    opponents: [{
+      name: 'Charlie',
+      cards: [],
+      matches: [],
+    }],
   }
 
   it('renders a player\'s view', () => {
@@ -24,5 +29,10 @@ describe('Game', () => {
   it('updates the state', () => {
     const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
     expect(wrapper.state().currentPlayer.name()).toBe(player.name)
+  });
+
+  it('renders opponents', () => {
+    const wrapper = shallow(<Game playerData={initialState} playerName="Josh" id={1} />)
+    expect(wrapper.find('Bot').length).toBe(1)
   });
 })
