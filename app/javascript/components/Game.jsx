@@ -61,6 +61,7 @@ class Game extends React.Component {
         <div>
           {this.state.opponents.map(bot => <BotView selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
         </div>
+        <h3> Deck: </h3>
         {this.middleOfDeck()}
         <PlayerView selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
       </div>
