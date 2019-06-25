@@ -54,20 +54,10 @@ class GoFish
     {
       'player' => player.as_json,
       'is_turn' => "#{is_turn?(player)}",
-      'opponents' => opponents_to(player_name)
+      'opponents' => opponents_to(player_name),
+      'deck_amount' => deck().cards_left
     }
   end
-
-  #   player = find_player_by_name(player_name)
-  #   { "player" => {
-  #       "cards" => player.cards.map(&:as_json),
-  #       "is_turn" => "#{is_turn?(player)}",
-  #       "matches" => player.matches.map(&:as_json)
-  #     },
-  #     "opponents" => opponents_to(player_name)
-  #   }
-
-  # Use reader methods instead of instance variables
 
   def as_json(*)
     {

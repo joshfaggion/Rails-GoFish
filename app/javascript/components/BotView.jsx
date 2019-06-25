@@ -4,13 +4,16 @@ import CardView from './CardView'
 import CardBack from '../img/backs_blue.png'
 
 class Bot extends React.Component {
-  twoPlusTwo() {
-    return 2 + 2
+  class() {
+    if (this.props.selectedPlayer === this.props.bot.name()) {
+      return 'selected bot'
+    }
+    return 'bot'
   }
 
   render() {
     return (
-      <div>
+      <div className={this.class()}>
         <h3><u>{this.props.bot.name()}</u></h3>
         {[...new Array(this.props.bot.cardAmount()).keys()].map(index => <img alt="Card Back" key={index} src={CardBack} />)}
       </div>
@@ -20,6 +23,7 @@ class Bot extends React.Component {
 
 Bot.propTypes = {
   bot: PropTypes.object.isRequired,
+  selectedPlayer: PropTypes.string.isRequired,
 }
 
 export default Bot

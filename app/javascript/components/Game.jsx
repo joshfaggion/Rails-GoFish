@@ -4,6 +4,7 @@ import Player from '../models/player'
 import PlayerView from './PlayerView'
 import BotView from './BotView'
 import Bot from '../models/Bot'
+import CardBack from '../img/backs_blue.png'
 
 class Game extends React.Component {
   constructor(props) {
@@ -11,11 +12,21 @@ class Game extends React.Component {
     this.state = {
       currentPlayer: new Player(this.props.playerData.player),
       opponents: this.props.playerData.opponents.map(opponent => new Bot(opponent)),
+      selectedPlayer: '',
+      selectedRank: '',
     }
   }
 
   updateGame() {
     this.fetchGame(this.props.id)
+  }
+
+  updateSelectedRank(rank) {
+    this.setState({ selectedRank: rank })
+  }
+
+  updateSelectedPlayer(player) {
+    this.setState({ selectedPlayer: player })
   }
 
   fetchGame(id) {
@@ -32,12 +43,26 @@ class Game extends React.Component {
     }))
   }
 
+  middleOfDeck() {
+    if (this.props.playerData.deck_amount > 0) {
+      return (
+        <div>
+          <img alt="The middle of the deck" src={CardBack} />
+        </div>
+      )
+    }
+    return ''
+  }
+
   render() {
     return (
       <div>
         <h1>Game {this.props.id} - in progress</h1>
-        {this.state.opponents.map(bot => <BotView key={bot.name()} bot={bot} />)}
-        <PlayerView player={this.state.currentPlayer} />
+        <div>
+          {this.state.opponents.map(bot => <BotView selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
+        </div>
+        {this.middleOfDeck()}
+        <PlayerView selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
       </div>
     )
   }
