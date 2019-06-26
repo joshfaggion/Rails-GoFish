@@ -11,9 +11,15 @@ class Bot extends React.Component {
     return 'bot'
   }
 
+  playerClicked() {
+    if (this.props.isTurn === 'true') {
+      this.props.updateSelectedPlayer(this.props.bot.name())
+    }
+  }
+
   render() {
     return (
-      <div onClick={this.props.updateSelectedPlayer.bind(this, this.props.bot.name())} className={this.class()}>
+      <div onClick={this.playerClicked.bind(this)} role="presentation" className={this.class()}>
         <h3><u>{this.props.bot.name()}</u></h3>
         {[...new Array(this.props.bot.cardAmount()).keys()].map(index => <img alt="Card Back" key={index} src={CardBack} />)}
       </div>
@@ -25,6 +31,7 @@ Bot.propTypes = {
   bot: PropTypes.object.isRequired,
   selectedPlayer: PropTypes.string.isRequired,
   updateSelectedPlayer: PropTypes.func.isRequired,
+  isTurn: PropTypes.string.isRequired,
 }
 
 export default Bot

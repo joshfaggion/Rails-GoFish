@@ -23,14 +23,22 @@ class CardView extends React.Component {
     return 'card-in-hand'
   }
 
+  cardClicked() {
+    if (this.props.isTurn === 'true') {
+      this.props.updateSelectedRank(this.props.card.rank())
+    }
+  }
+
   render() {
-    return <img src={this.source()} className={this.class()} alt={this.props.card.value()} />
+    return <img src={this.source()} onClick={this.cardClicked.bind(this)} className={this.class()} alt={this.props.card.value()} />
   }
 }
 
 CardView.propTypes = {
   card: PropTypes.object.isRequired,
   selectedRank: PropTypes.string.isRequired,
+  updateSelectedRank: PropTypes.func.isRequired,
+  isTurn: PropTypes.string.isRequired,
 }
 
 export default CardView

@@ -10,10 +10,11 @@ class Game extends React.Component {
   constructor(props) {
     super(props)
     this.state = {
-      currentPlayer: new Player(this.props.playerData.player),
-      opponents: this.props.playerData.opponents.map(opponent => new Bot(opponent)),
+      currentPlayer: new Player(props.playerData.player),
+      opponents: props.playerData.opponents.map(opponent => new Bot(opponent)),
       selectedPlayer: '',
       selectedRank: '',
+      isTurn: props.playerData.is_turn,
     }
   }
 
@@ -37,10 +38,13 @@ class Game extends React.Component {
 
   handleData(data) {
     console.log(data) // eslint-disable-line no-console
-    this.setState(() => ({
-      currentPlayer: data.player,
-      opponents: data.opponents,
-    }))
+    this.state = {
+      currentPlayer: new Player(props.playerData.player),
+      opponents: props.playerData.opponents.map(opponent => new Bot(opponent)),
+      selectedPlayer: '',
+      selectedRank: '',
+      isTurn: props.playerData.is_turn,
+    }
   }
 
   middleOfDeck() {
@@ -52,16 +56,40 @@ class Game extends React.Component {
     )
   }
 
+  submitCard() {
+    fetch(`/games/${this.props.id}/play_round`, {
+      method: 'PATCH',
+    }).then(response => response.json())
+      .then(this.handleData.bind(this))
+      .catch(err => console.error(err)) // eslint-disable-line no-console
+  }
+
+  renderHeader() {
+    if (this.state.isTurn === 'true') {
+      return <h2>It's your turn, make your request.</h2>
+    }
+    return <h2>It's someone else's turn, so be patient.</h2>
+  }
+
+  renderRequestButton() {
+    if (this.state.selectedRank !== '' && this.state.selectedPlayer !== '') {
+      return <button onClick={this.submitCard.bind(this)} type="submit">Request Card</button>
+    }
+    return ''
+  }
+
   render() {
     return (
       <div>
         <h1>Game {this.props.id} - in progress</h1>
+        {this.renderHeader()}
         <div>
-          {this.state.opponents.map(bot => <BotView updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
+          {this.state.opponents.map(bot => <BotView isTurn={this.state.isTurn} updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
         </div>
         <h3> Deck: </h3>
         {this.middleOfDeck()}
-        <PlayerView selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
+        <PlayerView isTurn={this.state.isTurn} updateSelectedRank={this.updateSelectedRank.bind(this)} selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
+        {this.renderRequestButton()}
       </div>
     )
   }

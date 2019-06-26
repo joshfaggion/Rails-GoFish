@@ -3,6 +3,9 @@ Rails.application.routes.draw do
   resources :sessions, only: [ :new, :create ]
   resources :games, only: [ :index, :show, :new, :create ] do
     resources :users, only: [ :create ]
+    member do
+      patch :play_round
+    end
   end
 
   post 'games/join'

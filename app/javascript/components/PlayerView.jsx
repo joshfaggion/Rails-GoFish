@@ -11,7 +11,7 @@ class PlayerView extends React.Component {
     return (
       <div>
         <h3><u>{this.props.player.name()}</u></h3>
-        {this.props.player.cards().map(card => <CardView selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
+        {this.props.player.cards().map(card => <CardView isTurn={this.props.isTurn} updateSelectedRank={this.props.updateSelectedRank} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
       </div>
     )
   }
@@ -20,6 +20,8 @@ class PlayerView extends React.Component {
 PlayerView.propTypes = {
   player: PropTypes.object.isRequired,
   selectedRank: PropTypes.string.isRequired,
+  updateSelectedRank: PropTypes.func.isRequired,
+  isTurn: PropTypes.string.isRequired,
 }
 
 export default PlayerView
