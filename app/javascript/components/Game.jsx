@@ -44,14 +44,12 @@ class Game extends React.Component {
   }
 
   middleOfDeck() {
-    if (this.props.playerData.deck_amount > 0) {
-      return (
-        <div>
-          <img alt="The middle of the deck" src={CardBack} />
-        </div>
-      )
-    }
-    return ''
+    if (this.props.playerData.deck_amount === 0) return null
+    return (
+      <div>
+        <img alt="The middle of the deck" src={CardBack} />
+      </div>
+    )
   }
 
   render() {
@@ -59,7 +57,7 @@ class Game extends React.Component {
       <div>
         <h1>Game {this.props.id} - in progress</h1>
         <div>
-          {this.state.opponents.map(bot => <BotView selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
+          {this.state.opponents.map(bot => <BotView updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
         </div>
         <h3> Deck: </h3>
         {this.middleOfDeck()}
