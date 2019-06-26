@@ -36,6 +36,7 @@ class GamesController < ApplicationController
     game = Game.find params[:id]
     current_user = User.find(session[:current_user]['id'])
     game.play_round(current_user.name, params['requestedPlayer'], params['requestedRank'])
+    pusher_notification
     respond_to do |format|
       format.html { redirect_to game}
       format.json { render :json => game.go_fish.state_for(current_user.name) }
@@ -58,8 +59,8 @@ class GamesController < ApplicationController
   private
 
   def pusher_notification
-    pusher_client.trigger('go fish', 'game-changed', {
-      message: "#{current_user.name} took turn"
+    pusher_client.trigger('go-fish', 'game-changed', {
+      message: "Somebody took turn"
     })
   end
 

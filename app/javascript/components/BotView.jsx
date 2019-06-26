@@ -23,7 +23,7 @@ class Bot extends React.Component {
         <h3><u>{this.props.bot.name()}</u></h3>
         {[...new Array(this.props.bot.cardAmount()).keys()].map(index => <img alt="Card Back" key={index} src={CardBack} />)}
         <div>
-          {this.props.bot.matches().map(card => <CardView isTurn={this.props.isTurn} class="match" updateSelectedRank={() => {}} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
+          {this.props.bot.matches().map(card => <CardView isTurn={this.props.isTurn} class="match" updateSelectedRank={() => {}} key={card.value()} card={card} />)}
         </div>
       </div>
     )

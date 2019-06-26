@@ -10,6 +10,7 @@
     "jest-enzyme": "^7.0.2",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
+    "pusher-js": "^4.4.0",
     "react-dom": "^16.8.6",
     "react_ujs": "^2.5.0"
   },

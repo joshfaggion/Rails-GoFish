@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import Pusher from 'pusher-js'
 import Player from '../models/player'
 import PlayerView from './PlayerView'
 import BotView from './BotView'
@@ -17,6 +18,21 @@ class Game extends React.Component {
       isTurn: props.playerData.is_turn,
       deckAmount: props.playerData.deck_amount,
     }
+  }
+
+  componentDidMount() {
+    Pusher.logToConsole = true;
+
+    const pusher = new Pusher('d0f473c4ba0b5ebf8a02', {
+      cluster: 'us2',
+      forceTLS: true,
+    });
+
+    const channel = pusher.subscribe('go-fish')
+    channel.bind('game-changed', (data) => {
+      console.log(data.message)
+      this.updateGame()
+    })
   }
 
   updateGame() {
@@ -89,6 +105,7 @@ class Game extends React.Component {
   }
 
   renderRefreshStateButton() {
+    // For testing purposes
     return <button type="button" onClick={this.updateGame.bind(this)}>Refresh State</button>
   }
 
@@ -103,7 +120,6 @@ class Game extends React.Component {
         {this.middleOfDeck()}
         <PlayerView isTurn={this.state.isTurn} updateSelectedRank={this.updateSelectedRank.bind(this)} selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
         {this.renderRequestButton()}
-        {this.renderRefreshStateButton()}
       </div>
     )
   }
