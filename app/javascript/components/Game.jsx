@@ -15,7 +15,7 @@ class Game extends React.Component {
       selectedPlayer: '',
       selectedRank: '',
       isTurn: props.playerData.is_turn,
-      deckAmount: props.playerData.deck_amount
+      deckAmount: props.playerData.deck_amount,
     }
   }
 

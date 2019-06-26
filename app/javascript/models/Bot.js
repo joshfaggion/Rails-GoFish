@@ -19,6 +19,10 @@ class Bot {
   cardAmount() {
     return this._cardAmount
   }
+
+  matches() {
+    return this._matches
+  }
 }
 
 export default Bot

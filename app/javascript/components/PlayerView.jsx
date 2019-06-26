@@ -11,7 +11,10 @@ class PlayerView extends React.Component {
     return (
       <div>
         <h3><u>{this.props.player.name()}</u></h3>
-        {this.props.player.cards().map(card => <CardView isTurn={this.props.isTurn} updateSelectedRank={this.props.updateSelectedRank} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
+        {this.props.player.cards().map(card => <CardView isTurn={this.props.isTurn} class="player-card" updateSelectedRank={this.props.updateSelectedRank} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
+        <div>
+          {this.props.player.matches().map(card => <CardView isTurn={this.props.isTurn} class="match" updateSelectedRank={() => {}} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
+        </div>
       </div>
     )
   }

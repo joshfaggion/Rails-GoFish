@@ -29,6 +29,14 @@ describe '#player' do
     expect(@player.cards_left).to eq 1
   end
 
+  it 'can pair cards' do
+    array_of_cards = ['s', 'c', 'h', 'd'].map { |suit| Card.new(rank:"4", suit:"#{suit}")}
+    player = Player.new(name: 'Carlos', cards: array_of_cards)
+    player.pair_cards
+    expect(player.cards_left).to eq 0
+    expect(player.points()).to eq 1
+  end
+
   it 'converts to json' do
     @player.set_hand([Card.new(rank:'10', suit:'h'), Card.new(rank:'j', suit:'c')])
     json = @player.as_json

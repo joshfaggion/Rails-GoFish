@@ -30,10 +30,12 @@ class GoFish
     if result == 'Go Fish!'
       if @deck.cards_left > 0
         player.take_cards(@deck.top_card)
+        player.pair_cards
       end
       next_turn()
     else
       player.take_cards(result)
+      player.pair_cards
     end
   end
 

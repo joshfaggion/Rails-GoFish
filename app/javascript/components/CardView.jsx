@@ -18,9 +18,9 @@ class CardView extends React.Component {
 
   class() {
     if (this.props.selectedRank === this.props.card.rank()) {
-      return 'selected player-card'
+      return `selected ${this.props.class}`
     }
-    return 'player-card'
+    return this.props.class
   }
 
   cardClicked() {
@@ -36,9 +36,10 @@ class CardView extends React.Component {
 
 CardView.propTypes = {
   card: PropTypes.object.isRequired,
-  selectedRank: PropTypes.string.isRequired,
-  updateSelectedRank: PropTypes.func.isRequired,
+  selectedRank: PropTypes.string,
+  updateSelectedRank: PropTypes.func,
   isTurn: PropTypes.string.isRequired,
+  class: PropTypes.string,
 }
 
 export default CardView

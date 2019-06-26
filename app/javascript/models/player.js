@@ -19,6 +19,10 @@ class Player {
   cards() {
     return this._cards
   }
+
+  matches() {
+    return this._matches
+  }
 }
 
 export default Player
