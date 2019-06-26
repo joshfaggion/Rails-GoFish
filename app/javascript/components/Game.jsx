@@ -38,13 +38,13 @@ class Game extends React.Component {
 
   handleData(data) {
     console.log(data) // eslint-disable-line no-console
-    this.state = {
-      currentPlayer: new Player(props.playerData.player),
-      opponents: props.playerData.opponents.map(opponent => new Bot(opponent)),
+    this.setState({
+      currentPlayer: new Player(data.player),
+      opponents: data.opponents.map(opponent => new Bot(opponent)),
       selectedPlayer: '',
       selectedRank: '',
-      isTurn: props.playerData.is_turn,
-    }
+      isTurn: data.is_turn,
+    })
   }
 
   middleOfDeck() {
@@ -57,10 +57,10 @@ class Game extends React.Component {
   }
 
   submitCard() {
-    fetch(`/games/${this.props.id}/play_round`, {
+    fetch(`/games/${this.props.id}/play_round.json`, {
       method: 'PATCH',
     }).then(response => response.json())
-      .then(this.handleData.bind(this))
+      .then(response => this.handleData(response))
       .catch(err => console.error(err)) // eslint-disable-line no-console
   }
 

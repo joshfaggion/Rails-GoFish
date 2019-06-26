@@ -1,4 +1,6 @@
 class GamesController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def new
     @game = Game.new
   end
@@ -28,6 +30,16 @@ class GamesController < ApplicationController
       game.start
     end
     redirect_to game
+  end
+
+  def play_round
+    game = Game.find params[:id]
+    current_user = User.find(session[:current_user]['id'])
+    game.play_round
+    respond_to do |format|
+      format.html { redirect_to game}
+      format.json { render :json => game.go_fish.state_for(current_user.name) }
+    end
   end
 
   def show

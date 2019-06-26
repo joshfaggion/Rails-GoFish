@@ -11,6 +11,10 @@ class Game < ApplicationRecord
     started_at.blank?
   end
 
+  def play_round
+
+  end
+
   def start
     game = GoFish.new(names: users.map(&:name), player_count: player_count)
     game.start_game
