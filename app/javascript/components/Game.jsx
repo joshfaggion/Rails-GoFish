@@ -80,9 +80,13 @@ class Game extends React.Component {
 
   renderRequestButton() {
     if (this.state.selectedRank !== '' && this.state.selectedPlayer !== '') {
-      return <button onClick={this.submitCard.bind(this)} type="submit">Request Card</button>
+      return <button className="request-button" onClick={this.submitCard.bind(this)} type="submit">Request Card</button>
     }
     return ''
+  }
+
+  renderRefreshStateButton() {
+    return <button type="button" onClick={this.updateGame.bind(this)}>Refresh State</button>
   }
 
   render() {
@@ -97,6 +101,7 @@ class Game extends React.Component {
         {this.middleOfDeck()}
         <PlayerView isTurn={this.state.isTurn} updateSelectedRank={this.updateSelectedRank.bind(this)} selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
         {this.renderRequestButton()}
+        {this.renderRefreshStateButton()}
       </div>
     )
   }

@@ -11,12 +11,12 @@ describe('Bot', () => {
   }
 
   it('renders a player\'s title', () => {
-    const wrapper = shallow(<BotView bot={new Bot(botProps)} />)
+    const wrapper = shallow(<BotView isTurn="true" updateSelectedPlayer={jest.fn()} selectedPlayer="Carol" bot={new Bot(botProps)} />)
     expect(wrapper.text()).toContain('Charlos')
   })
 
   it('renders a hand', () => {
-    const wrapper = shallow(<BotView bot={new Bot(botProps)} />)
+    const wrapper = shallow(<BotView isTurn="true" updateSelectedPlayer={jest.fn()} selectedPlayer="Carol" bot={new Bot(botProps)} />)
     expect(wrapper.find('img').length).toBe(3)
   });
 })

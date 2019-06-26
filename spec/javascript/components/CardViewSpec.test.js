@@ -10,7 +10,7 @@ describe('CardView', () => {
   }
 
   it('renders a card', () => {
-    const wrapper = shallow(<CardView card={new Card(cardProps)} />)
+    const wrapper = shallow(<CardView updateSelectedRank={jest.fn()} selectedRank="10" isTurn="true" card={new Card(cardProps)} />)
     expect(wrapper.find('img').length).toBe(1)
   })
 })

@@ -11,12 +11,12 @@ describe('PlayerView', () => {
   }
 
   it('renders a player\'s title', () => {
-    const wrapper = shallow(<PlayerView player={new Player(playerProps)} />)
+    const wrapper = shallow(<PlayerView selectedRank="10" updateSelectedRank={jest.fn()} isTurn="true" player={new Player(playerProps)} />)
     expect(wrapper.text()).toContain('Charlos')
   })
 
   it('renders a hand', () => {
-    const wrapper = shallow(<PlayerView player={new Player(playerProps)} />)
+    const wrapper = shallow(<PlayerView selectedRank="10" updateSelectedRank={jest.fn()} isTurn="true" player={new Player(playerProps)} />)
     expect(wrapper.find('CardView').length).toBe(2)
   });
 })
