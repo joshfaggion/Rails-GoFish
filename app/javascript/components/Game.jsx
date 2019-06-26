@@ -59,6 +59,13 @@ class Game extends React.Component {
   submitCard() {
     fetch(`/games/${this.props.id}/play_round.json`, {
       method: 'PATCH',
+      body: JSON.stringify({
+        requestedPlayer: this.state.selectedPlayer,
+        requestedRank: this.state.selectedRank,
+      }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     }).then(response => response.json())
       .then(response => this.handleData(response))
       .catch(err => console.error(err)) // eslint-disable-line no-console

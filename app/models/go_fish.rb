@@ -23,6 +23,25 @@ class GoFish
     end
   end
 
+  def play_round(current_player, target_player, rank)
+    player = find_player_by_name(current_player)
+    target = find_player_by_name(target_player)
+    result = target.card_in_hand(rank)
+    if result == 'Go Fish!'
+      player.take_cards(@deck.top_card)
+      next_turn()
+    else
+      player.take_cards(result)
+    end
+  end
+
+  def next_turn
+    @turn += 1
+    if @turn == @players.length
+      @turn = 0
+    end
+  end
+
   def find_player_by_name(name)
     @players.detect{ |player| player.name == name }
   end

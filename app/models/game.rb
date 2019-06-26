@@ -11,8 +11,9 @@ class Game < ApplicationRecord
     started_at.blank?
   end
 
-  def play_round
-
+  def play_round(current_player, target_player, rank)
+    go_fish.play_round(current_player, target_player, rank)
+    save!
   end
 
   def start

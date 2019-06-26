@@ -8,6 +8,13 @@ RSpec.describe Game, type: :model do
     expect(game.deck.cards_left).to eq (52 - 10)
   end
 
+  it 'can run a round' do
+    game = GoFish.new(names: ['Cameron', 'Josh'], player_count: 2)
+    game.start_game
+    game.play_round('Cameron', 'Josh', '10')
+    expect(game.players()[0].cards_left).to_not eq 5
+  end
+
   it 'can convert to json' do
     game = GoFish.new(names: ['Cameron', 'Josh'], player_count: 2)
     game.start_game

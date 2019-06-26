@@ -1,7 +1,7 @@
 class Deck
   attr_reader :cards
-  def initialize(cards = [])
-    if cards.length == 0
+  def initialize(cards = 'has no cards')
+    if cards == 'has no cards'
       @cards=[]
       ranks=%w[a 2 3 4 5 6 7 8 9 10 j q k]
       suits=%w[h s d c]

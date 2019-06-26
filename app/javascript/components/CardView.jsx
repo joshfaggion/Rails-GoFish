@@ -18,9 +18,9 @@ class CardView extends React.Component {
 
   class() {
     if (this.props.selectedRank === this.props.card.rank()) {
-      return 'selected card-in-hand'
+      return 'selected player-card'
     }
-    return 'card-in-hand'
+    return 'player-card'
   }
 
   cardClicked() {
