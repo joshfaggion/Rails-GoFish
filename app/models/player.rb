@@ -24,6 +24,7 @@ class Player
     if result.length == 0
       return 'Go Fish!'
     end
+    @cards = @cards.select {|card| card.rank != rank}
     return result
   end
 

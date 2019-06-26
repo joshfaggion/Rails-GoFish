@@ -28,7 +28,9 @@ class GoFish
     target = find_player_by_name(target_player)
     result = target.card_in_hand(rank)
     if result == 'Go Fish!'
-      player.take_cards(@deck.top_card)
+      if @deck.cards_left > 0
+        player.take_cards(@deck.top_card)
+      end
       next_turn()
     else
       player.take_cards(result)

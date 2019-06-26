@@ -15,6 +15,7 @@ class Game extends React.Component {
       selectedPlayer: '',
       selectedRank: '',
       isTurn: props.playerData.is_turn,
+      deckAmount: props.playerData.deck_amount
     }
   }
 
@@ -44,13 +45,15 @@ class Game extends React.Component {
       selectedPlayer: '',
       selectedRank: '',
       isTurn: data.is_turn,
+      deckAmount: data.deck_amount,
     })
   }
 
   middleOfDeck() {
-    if (this.props.playerData.deck_amount === 0) return null
+    if (this.state.deckAmount === 0) return null
     return (
       <div>
+        <h3> Deck: </h3>
         <img alt="The middle of the deck" src={CardBack} />
       </div>
     )
@@ -97,7 +100,6 @@ class Game extends React.Component {
         <div>
           {this.state.opponents.map(bot => <BotView isTurn={this.state.isTurn} updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
         </div>
-        <h3> Deck: </h3>
         {this.middleOfDeck()}
         <PlayerView isTurn={this.state.isTurn} updateSelectedRank={this.updateSelectedRank.bind(this)} selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
         {this.renderRequestButton()}
