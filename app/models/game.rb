@@ -22,4 +22,8 @@ class Game < ApplicationRecord
     update(started_at: Time.now)
     update(go_fish: game)
   end
+
+  def stats
+    go_fish.stats
+  end
 end

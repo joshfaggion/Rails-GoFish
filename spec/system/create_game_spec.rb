@@ -55,7 +55,7 @@ RSpec.describe 'Create Game', type: :system do
     request_button = session1.find('.request-button')
     request_button.click
     session1.driver.refresh
-
+    
     expect(session1.all('.player-card').length).to_not eq 5
   end
 end

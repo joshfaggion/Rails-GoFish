@@ -9,7 +9,7 @@ class PlayerView extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="player-div">
         <h3><u>{this.props.player.name()}</u></h3>
         {this.props.player.cards().map(card => <CardView isTurn={this.props.isTurn} class="player-card" updateSelectedRank={this.props.updateSelectedRank} selectedRank={this.props.selectedRank} key={card.value()} card={card} />)}
         <div>

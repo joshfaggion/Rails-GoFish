@@ -1,8 +1,9 @@
 class GoFish
-  attr_reader :players, :deck
-  def initialize(names: [], turn: 0, player_count:, players: [], deck: Deck.new())
+  attr_reader :players, :deck, :log
+  def initialize(names: [], turn: 0, player_count:, players: [], deck: Deck.new(), log: [])
     if players.length == 0
       @players = []
+      @log = []
       @names = names
       names.each do |name|
         @players.push(Player.new(name: name))
@@ -13,6 +14,7 @@ class GoFish
       @players = players
       @deck = deck
       @turn = turn
+      @log = log
     end
   end
 
@@ -20,6 +22,19 @@ class GoFish
     @deck.shuffle
     players().each do |player|
       player.take_cards(@deck.deal)
+    end
+  end
+
+  def updateGameLog(result:, rank:, player:, target:)
+    string = ''
+    if result == "Go Fish!"
+      string = "#{player.name()} asked for #{rank.upcase}s from #{target.name()}, but went fishing"
+    else
+      string = "#{player.name()} took all the #{rank.upcase}s from #{target.name()}"
+    end
+    @log.unshift(string)
+    if @log.length > 10
+      @log.pop()
     end
   end
 
@@ -37,8 +52,17 @@ class GoFish
       player.take_cards(result)
       player.pair_cards
     end
+    updateGameLog(result: result, rank: rank, player: player, target: target)
     card_refills
     skip_finished_players
+  end
+
+  def stats
+    player_stats = []
+    players().each do |player|
+      player_stats.push([player.name, player.points])
+    end
+    player_stats.sort_by! { |player| player[1] }.reverse
   end
 
   def card_refills
@@ -54,9 +78,19 @@ class GoFish
   end
 
   def skip_finished_players
-    if players()[@turn].cards_left == 0
+    while players()[@turn].cards_left == 0 && any_players_have_cards() == true
       next_turn()
     end
+  end
+
+  def any_players_have_cards
+    result = false
+    players().each do |player|
+      if player.cards_left != 0
+        result = true
+      end
+    end
+    return result
   end
 
   def next_turn
@@ -72,7 +106,7 @@ class GoFish
 
   def self.from_json(json)
     players = json['players'].map { |player| Player.from_json(player) }
-    self.new(turn: json['turn'].to_i, players: players, player_count: json['players'].length, deck: Deck.from_json(json['deck']))
+    self.new(turn: json['turn'].to_i, log: json['log'], players: players, player_count: json['players'].length, deck: Deck.from_json(json['deck']))
   end
 
   def self.load(json)
@@ -98,15 +132,22 @@ class GoFish
       'player' => player.as_json,
       'is_turn' => "#{is_turn?(player)}",
       'opponents' => opponents_to(player_name),
-      'deck_amount' => deck().cards_left
+      'deck_amount' => deck().cards_left,
+      'game_active' => "#{any_players_have_cards()}",
+      'log' => log_as_json()
     }
+  end
+
+  def log_as_json
+    return @log
   end
 
   def as_json(*)
     {
       "players" => players().map { |player| player.as_json },
       "deck" => deck().as_json,
-      "turn" => "#{@turn}"
+      "turn" => "#{@turn}",
+      "log" => log_as_json()
     }
   end
 

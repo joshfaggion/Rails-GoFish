@@ -39,6 +39,12 @@ class GamesController < ApplicationController
     pusher_notification
   end
 
+  def stats
+    game = Game.find params[:id]
+    game.stats
+    render :json => game.stats
+  end
+
   def show
     @game = Game.find params[:id]
     current_user = User.find(session[:current_user]['id'])

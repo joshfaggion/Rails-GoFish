@@ -5,6 +5,7 @@ Rails.application.routes.draw do
     resources :users, only: [ :create ]
     member do
       patch :play_round
+      get :stats
     end
   end
 

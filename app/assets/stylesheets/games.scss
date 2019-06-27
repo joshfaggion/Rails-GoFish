@@ -12,3 +12,70 @@
 .match {
   width: 50px;
 }
+
+.bots {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 auto;
+  flex-wrap: nowrap;
+}
+
+.bot-div {
+  padding: 10px 10px 10px 30px;
+  margin-left: 20px;
+  margin-right: 20px;
+  text-align: center;
+  max-width: 100rem;
+}
+
+.centered-wrapper {
+  text-align: center;
+}
+
+.player-div {
+  text-align: center;
+  max-width: 50rem;
+}
+
+.game-log {
+  text-align: left;
+  display: inline-block;
+  position: fixed;
+  left: 10px;
+  bottom: 5%;
+  border-radius: 15px;
+  border: 4px solid #4A6482;
+  background-color: #7E98B5;
+  padding: 5px 5px 10px 10px;
+}
+
+.request-button {
+  background-color: #4A6482; /* Green */
+  padding: 16px 32px;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  color: white;
+  border: 2px solid #7E98B5;
+  border-radius: 8px;
+}
+
+.request-button:hover {
+  background-color: #BECBDA;
+  color: black;
+}
+
+.card {
+  margin-left: -30px;
+  width: 60px;
+}
+
+html {
+  display: table;
+  background-color: #BECBDA;
+  margin: auto;
+}

@@ -3,6 +3,7 @@ class Deck
   def initialize(cards = 'has no cards')
     if cards == 'has no cards'
       @cards=[]
+      # For testing remove ranks to shorten game length
       ranks=%w[a 2 3 4 5 6 7 8 9 10 j q k]
       suits=%w[h s d c]
       suits.each do |suit|

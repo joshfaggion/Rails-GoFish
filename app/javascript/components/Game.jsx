@@ -6,6 +6,7 @@ import PlayerView from './PlayerView'
 import BotView from './BotView'
 import Bot from '../models/Bot'
 import CardBack from '../img/backs_blue.png'
+import EndView from './EndView'
 
 class Game extends React.Component {
   constructor(props) {
@@ -17,8 +18,9 @@ class Game extends React.Component {
       selectedRank: '',
       isTurn: props.playerData.is_turn,
       deckAmount: props.playerData.deck_amount,
+      gameActive: props.playerData.game_active,
+      log: Array.from(props.playerData.log),
     }
-    console.log(props)
   }
 
   componentDidMount() {
@@ -30,6 +32,7 @@ class Game extends React.Component {
     });
 
     const channel = pusher.subscribe('go-fish')
+    // Use game id to make this unique
     channel.bind('game-changed', (data) => {
       console.log(data.message)
       this.updateGame()
@@ -49,7 +52,9 @@ class Game extends React.Component {
   }
 
   fetchGame(id) {
-    fetch(`/games/${id}.json`).then(response => response.json())
+    fetch(`/games/${id}.json`, {
+      credentials: 'same-origin',
+    }).then(response => response.json())
       .then(this.handleData.bind(this))
       .catch(err => console.error(err)) // eslint-disable-line no-console
   }
@@ -63,14 +68,16 @@ class Game extends React.Component {
       selectedRank: '',
       isTurn: data.is_turn,
       deckAmount: data.deck_amount,
+      gameActive: data.game_active,
+      log: Array.from(data.log),
     })
   }
 
   middleOfDeck() {
     if (this.state.deckAmount === 0) return null
     return (
-      <div>
-        <h3> Deck: </h3>
+      <div className="centered-wrapper">
+        <h3>Deck:</h3>
         <img alt="The middle of the deck" src={CardBack} />
       </div>
     )
@@ -86,6 +93,7 @@ class Game extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
+      credentials: 'same-origin',
     })
       .catch(err => console.error(err)) // eslint-disable-line no-console
   }
@@ -99,7 +107,7 @@ class Game extends React.Component {
 
   renderRequestButton() {
     if (this.state.selectedRank !== '' && this.state.selectedPlayer !== '') {
-      return <button className="request-button" onClick={this.submitCard.bind(this)} type="submit">Request Card</button>
+      return <div className="centered-wrapper"><button className="request-button" onClick={this.submitCard.bind(this)} type="submit">Request Card</button></div>
     }
     return ''
   }
@@ -109,19 +117,40 @@ class Game extends React.Component {
     return <button type="button" onClick={this.updateGame.bind(this)}>Refresh State</button>
   }
 
-  render() {
+  renderGameLog() {
+    return (
+      <div className="game-log">
+        <h4>Game Log: (top is newest)</h4>
+        {this.state.log.map((result, index) => <h5 key={index}>{result}</h5>)}
+      </div>
+    )
+  }
+
+  renderActiveGame() {
     return (
       <div>
         <h1>Game {this.props.id} - in progress</h1>
         {this.renderHeader()}
-        <div>
+        <div className="bots">
           {this.state.opponents.map(bot => <BotView isTurn={this.state.isTurn} updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
         </div>
         {this.middleOfDeck()}
         <PlayerView isTurn={this.state.isTurn} updateSelectedRank={this.updateSelectedRank.bind(this)} selectedRank={this.state.selectedRank} player={this.state.currentPlayer} />
         {this.renderRequestButton()}
+        {this.renderGameLog()}
       </div>
     )
+  }
+
+  renderEndGame() {
+    return <EndView id={this.props.id} />
+  }
+
+  render() {
+    if (this.state.gameActive === 'true') {
+      return this.renderActiveGame()
+    }
+    return this.renderEndGame()
   }
 }
 
