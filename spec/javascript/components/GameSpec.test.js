@@ -19,6 +19,8 @@ describe('Game', () => {
       cards: [],
       matches: [],
     }],
+    log: ['Hello everybody!'],
+    game_active: 'true',
   }
 
   it('renders a player\'s view', () => {

@@ -24,7 +24,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    Pusher.logToConsole = true;
+    Pusher.logToConsole = false;
 
     const pusher = new Pusher('d0f473c4ba0b5ebf8a02', {
       cluster: 'us2',
