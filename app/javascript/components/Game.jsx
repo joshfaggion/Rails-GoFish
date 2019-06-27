@@ -1,5 +1,5 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import Pusher from 'pusher-js'
 import Player from '../models/player'
 import PlayerView from './PlayerView'
