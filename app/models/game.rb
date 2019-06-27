@@ -4,6 +4,7 @@ class Game < ApplicationRecord
 
   scope :pending, -> { where(started_at: nil) }
   scope :in_progress, -> { where.not(started_at: nil).where(finished_at: nil) }
+  scope :finished, -> { where.not(finished_at: nil) }
 
   serialize :go_fish, GoFish
 
@@ -13,6 +14,11 @@ class Game < ApplicationRecord
 
   def play_round(current_player, target_player, rank)
     go_fish.play_round(current_player, target_player, rank)
+    save!
+  end
+
+  def finish
+    update(finished_at: Time.now)
     save!
   end
 

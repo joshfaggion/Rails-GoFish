@@ -5,6 +5,8 @@
   p Lobby:
   - @game.users.each do |user|
     p = "- #{user.name}"
+  p = link_to "Leave Lobby", games_leave_path(@game.id), method: :post
 - else
+  h3.centered = link_to "Home", games_path
   - player = User.find(session[:current_user]['id'])
   = react_component'Game', {playerData: @game.go_fish.state_for(player.name), id: @game.id, playerName: player.name }

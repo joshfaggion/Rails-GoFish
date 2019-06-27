@@ -131,6 +131,7 @@ class GoFish
     {
       'player' => player.as_json,
       'is_turn' => "#{is_turn?(player)}",
+      'requesting_player' => "#{@players[@turn].name}",
       'opponents' => opponents_to(player_name),
       'deck_amount' => deck().cards_left,
       'game_active' => "#{any_players_have_cards()}",

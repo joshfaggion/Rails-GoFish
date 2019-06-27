@@ -7,10 +7,11 @@ module GameHelper
     end
   end
 
-  def self.join_game(sessions)
+  def self.join_two_player_game(sessions, game)
     sessions.each do |session|
       session.driver.refresh
-      session.click_on 'Join Game 1 - waiting for players'
+      game.reload
+      session.click_on "Join Game #1 (2 player game) - waiting for #{game.player_count - game.users.length} player(s)"
     end
   end
 

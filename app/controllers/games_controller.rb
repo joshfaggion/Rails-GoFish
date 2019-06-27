@@ -7,6 +7,8 @@ class GamesController < ApplicationController
 
   def index
     @pending_games = Game.pending
+    @in_progress_games = Game.in_progress
+    @finished_games = Game.finished
   end
 
   def create
@@ -32,6 +34,16 @@ class GamesController < ApplicationController
     redirect_to game
   end
 
+  def leave
+    game = Game.find params[:format]
+    current_user = User.find(session[:current_user]['id'])
+    GameUser.find_by(user: current_user, game_id: game.id).destroy
+    if game.users.none?
+      game.destroy
+    end
+    redirect_to games_path
+  end
+
   def play_round
     game = Game.find params[:id]
     current_user = User.find(session[:current_user]['id'])
@@ -42,6 +54,7 @@ class GamesController < ApplicationController
   def stats
     game = Game.find params[:id]
     game.stats
+    game.finish
     render :json => game.stats
   end
 

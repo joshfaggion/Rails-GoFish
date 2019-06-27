@@ -8,6 +8,16 @@ h2 Pending Games:
 - else
   - @pending_games.each do |game|
     - if game.pending?
-      p = link_to "Join Game #{game.id} - waiting for players", games_join_path(game.id), method: :post
-    - else
-      p = "Game #{game.id} is in progress"
+      p = link_to "Join Game ##{game.id} (#{game.player_count} player game) - waiting for #{game.player_count - game.game_users.length} player(s)", games_join_path(game.id), method: :post
+h2 In Progress Games:
+- if @in_progress_games.blank?
+  p You are not currently in any active games.
+- else
+  - @in_progress_games.each do |game|
+    p = link_to "Resume Game ##{game.id}", game_path(game.id)
+h2 Finished Games:
+- if @finished_games.blank?
+  p You have not finished any games.
+- else
+  - @finished_games.each do |game|
+    p = link_to "View Standings of Game ##{game.id}", game_path(game.id)

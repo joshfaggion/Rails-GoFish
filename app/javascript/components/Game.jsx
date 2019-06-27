@@ -20,6 +20,7 @@ class Game extends React.Component {
       deckAmount: props.playerData.deck_amount,
       gameActive: props.playerData.game_active,
       log: Array.from(props.playerData.log),
+      requestingPlayer: props.playerData.requesting_player,
     }
   }
 
@@ -70,6 +71,7 @@ class Game extends React.Component {
       deckAmount: data.deck_amount,
       gameActive: data.game_active,
       log: Array.from(data.log),
+      requestingPlayer: data.requesting_player,
     })
   }
 
@@ -100,9 +102,9 @@ class Game extends React.Component {
 
   renderHeader() {
     if (this.state.isTurn === 'true') {
-      return <h2>It's your turn, make your request.</h2>
+      return <h2>It's your turn.</h2>
     }
-    return <h2>It's someone else's turn, so be patient.</h2>
+    return <h2>Waiting for {this.state.requestingPlayer} to make their move...</h2>
   }
 
   renderRequestButton() {

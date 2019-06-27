@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(version: 2019_06_20_185005) do
 
   create_table "games", force: :cascade do |t|
     t.datetime "started_at"
+    t.datetime "finished_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "player_count"

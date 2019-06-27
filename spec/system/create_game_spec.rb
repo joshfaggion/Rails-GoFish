@@ -23,7 +23,7 @@ RSpec.describe 'Create Game', type: :system do
 
     GameHelper.login_users([session1, session2])
 
-    GameHelper.join_game([session1, session2])
+    GameHelper.join_two_player_game([session1, session2], game)
 
     session1.driver.refresh
     card = session1.all('.player-card').last
