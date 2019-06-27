@@ -37,6 +37,26 @@ class GoFish
       player.take_cards(result)
       player.pair_cards
     end
+    card_refills
+    skip_finished_players
+  end
+
+  def card_refills
+    players().each do |player|
+      if player.cards_left == 0
+        5.times do
+          if @deck.cards_left > 0
+            player.take_cards(@deck.top_card)
+          end
+        end
+      end
+    end
+  end
+
+  def skip_finished_players
+    if players()[@turn].cards_left == 0
+      next_turn()
+    end
   end
 
   def next_turn

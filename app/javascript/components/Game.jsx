@@ -18,6 +18,7 @@ class Game extends React.Component {
       isTurn: props.playerData.is_turn,
       deckAmount: props.playerData.deck_amount,
     }
+    console.log(props)
   }
 
   componentDidMount() {
@@ -85,8 +86,7 @@ class Game extends React.Component {
       headers: {
         'Content-Type': 'application/json',
       },
-    }).then(response => response.json())
-      .then(response => this.handleData(response))
+    })
       .catch(err => console.error(err)) // eslint-disable-line no-console
   }
 

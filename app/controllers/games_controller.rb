@@ -37,10 +37,6 @@ class GamesController < ApplicationController
     current_user = User.find(session[:current_user]['id'])
     game.play_round(current_user.name, params['requestedPlayer'], params['requestedRank'])
     pusher_notification
-    respond_to do |format|
-      format.html { redirect_to game}
-      format.json { render :json => game.go_fish.state_for(current_user.name) }
-    end
   end
 
   def show
