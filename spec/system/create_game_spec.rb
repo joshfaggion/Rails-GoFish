@@ -44,18 +44,18 @@ RSpec.describe 'Create Game', type: :system do
     GameHelper.join_game([session2, session3, session4])
 
     session1.driver.refresh
-    card = session1.find('.player-card', match: :first)
+    card = session1.all('.player-card').last
     card.click
     expect(card.has_css?('.selected'))
 
-    bot = session1.find('.bot', match: :first)
+    bot = session1.find('.bot-div', match: :first)
     bot.click
     expect(bot.has_css?('.selected'))
 
     request_button = session1.find('.request-button')
     request_button.click
     session1.driver.refresh
-    
+
     expect(session1.all('.player-card').length).to_not eq 5
   end
 end
