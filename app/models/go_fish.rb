@@ -119,7 +119,6 @@ class GoFish
     if @players[@turn].bot
       run_bot_turns()
     end
-    # then switch turn to 0 to get back to the first player
   end
 
   def run_bot_turns

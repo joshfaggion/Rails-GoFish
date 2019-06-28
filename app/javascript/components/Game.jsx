@@ -60,7 +60,6 @@ class Game extends React.Component {
   }
 
   handleData(data) {
-    console.log(data) // eslint-disable-line no-console
     this.setState({
       currentPlayer: new Player(data.player),
       opponents: data.opponents.map(opponent => new Bot(opponent)),
