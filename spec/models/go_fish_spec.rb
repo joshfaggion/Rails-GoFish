@@ -43,4 +43,10 @@ RSpec.describe Game, type: :model do
     expect(state['is_turn']).to eq 'false'
     expect(state['player']['cards'].length).to eq 5
   end
+
+  it 'can autofill with bots' do
+    game = GoFish.new(names: ['Charlos', 'Finn'], player_count: 4)
+    game.start_game
+    expect(game.players.length).to eq 4
+  end
 end

@@ -22,6 +22,7 @@ class Game extends React.Component {
       log: Array.from(props.playerData.log),
       requestingPlayer: props.playerData.requesting_player,
     }
+    console.log(props)
   }
 
   componentDidMount() {

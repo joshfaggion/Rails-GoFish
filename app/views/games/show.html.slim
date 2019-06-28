@@ -1,11 +1,16 @@
+
 - if @game.pending?
   h1 = "Game #{@game.id}"
   p Your game is pending...
   p = "You asked for #{@game['player_count']} players..."
+  p = "Autofill empty slots with bots", fill_with_bots_path
+
+
   p Lobby:
   - @game.users.each do |user|
     p = "- #{user.name}"
   p = link_to "Leave Lobby", games_leave_path(@game.id), method: :post
+
 - else
   h3.centered = link_to "Home", games_path
   - player = User.find(session[:current_user]['id'])

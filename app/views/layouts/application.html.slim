@@ -9,5 +9,9 @@ html
     = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
     = javascript_pack_tag 'application'
     = javascript_pack_tag 'pusher'
-  body data-current_user_id="#{session[:current_user]['id']}"
-    = yield
+  - if session[:current_user]
+    body data-current_user_id="#{session[:current_user]['id']}"
+     = yield
+  - else
+    body
+      = yield

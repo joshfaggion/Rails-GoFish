@@ -11,4 +11,8 @@ class ApplicationController < ActionController::Base
       encrypted: true
     )
   end
+
+  def login(user)
+    session[:current_user] = user
+  end
 end

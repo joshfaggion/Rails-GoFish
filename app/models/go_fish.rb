@@ -1,12 +1,19 @@
 class GoFish
-  attr_reader :players, :deck, :log
-  def initialize(names: [], turn: 0, player_count:, players: [], deck: Deck.new(), log: [])
+  attr_reader :players, :deck, :log, :bots
+  def initialize(names: [], turn: 0, player_count:, players: [], deck: Deck.new(), log: [], bots:  [])
     if players.length == 0
       @players = []
+      @bots = []
       @log = []
       @names = names
       names.each do |name|
         @players.push(Player.new(name: name))
+      end
+      index = 0
+      while @players.length < player_count
+        bot = Player.new(name: "Bot #{index += 1}")
+        @players.push(bot)
+        @bots.push(bot)
       end
       @turn = 0
       @deck = deck
@@ -106,7 +113,8 @@ class GoFish
 
   def self.from_json(json)
     players = json['players'].map { |player| Player.from_json(player) }
-    self.new(turn: json['turn'].to_i, log: json['log'], players: players, player_count: json['players'].length, deck: Deck.from_json(json['deck']))
+    bots = json['bots'].map { |bot| Player.from_json(bot) }
+    self.new(bots: bots, turn: json['turn'].to_i, log: json['log'], players: players, player_count: json['players'].length, deck: Deck.from_json(json['deck']))
   end
 
   def self.load(json)
@@ -135,7 +143,8 @@ class GoFish
       'opponents' => opponents_to(player_name),
       'deck_amount' => deck().cards_left,
       'game_active' => "#{any_players_have_cards()}",
-      'log' => log_as_json()
+      'log' => log_as_json(),
+      'bots' => bots().map(&:as_json)
     }
   end
 
@@ -148,7 +157,8 @@ class GoFish
       "players" => players().map { |player| player.as_json },
       "deck" => deck().as_json,
       "turn" => "#{@turn}",
-      "log" => log_as_json()
+      "log" => log_as_json(),
+      "bots" => bots().map { |bot| bot.as_json }
     }
   end
 

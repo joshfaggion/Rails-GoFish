@@ -12,6 +12,18 @@ class GamesController < ApplicationController
     @finished_games = Game.finished.select { |game| game.users.include?(@user) }
   end
 
+  def instructions
+  end
+
+  def fill_with_robots
+    game = Game.find params[:id]
+    current_user = User.find(session[:current_user]['id'])
+    game.autofill
+    game.start
+    lobby_pusher_notification(game.id)
+    redirect_to game
+  end
+
   def create
     @game = Game.create(game_params)
     current_user = User.find(session[:current_user]['id'])
