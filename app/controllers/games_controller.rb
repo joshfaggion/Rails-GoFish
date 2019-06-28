@@ -18,7 +18,6 @@ class GamesController < ApplicationController
   def fill_with_robots
     game = Game.find params[:id]
     current_user = User.find(session[:current_user]['id'])
-    game.autofill
     game.start
     lobby_pusher_notification(game.id)
     redirect_to game

@@ -22,6 +22,7 @@ class GoFish
       @deck = deck
       @turn = turn
       @log = log
+      @bots = bots
     end
   end
 
