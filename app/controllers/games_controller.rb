@@ -17,6 +17,7 @@ class GamesController < ApplicationController
     current_user = User.find(session[:current_user]['id'])
     if @game.save
       @game.users << current_user
+      new_game_pusher_notification()
       redirect_to @game, notice: 'Game created'
     else
       render :create
@@ -32,6 +33,7 @@ class GamesController < ApplicationController
     if game.users.length == game['player_count']
       game.start
     end
+    lobby_pusher_notification(game.id)
     redirect_to game
   end
 
@@ -42,6 +44,7 @@ class GamesController < ApplicationController
     if game.users.none?
       game.destroy
     end
+    lobby_pusher_notification(game.id)
     redirect_to games_path
   end
 
@@ -49,7 +52,7 @@ class GamesController < ApplicationController
     game = Game.find params[:id]
     current_user = User.find(session[:current_user]['id'])
     game.play_round(current_user.name, params['requestedPlayer'], params['requestedRank'])
-    pusher_notification
+    game_pusher_notification
   end
 
   def stats
@@ -68,13 +71,22 @@ class GamesController < ApplicationController
     end
   end
 
-  def state
-
-  end
-
   private
 
-  def pusher_notification
+  def lobby_pusher_notification(game_id)
+    pusher_client.trigger('go-fish', 'lobby-updated', {
+      playerid: "#{session[:current_user]['id']}",
+      gameid: "#{game_id}"
+    })
+  end
+
+  def new_game_pusher_notification
+    pusher_client.trigger('go-fish', 'game-created', {
+      playerid: "#{session[:current_user]['id']}"
+    })
+  end
+
+  def game_pusher_notification
     pusher_client.trigger('go-fish', 'game-changed', {
       message: "Somebody took turn"
     })
