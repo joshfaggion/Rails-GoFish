@@ -1,4 +1,5 @@
 h1 Welcome to Go Fish
+- current_user = User.find(session[:current_user]['id'])
 
 = link_to 'Create Game', new_game_url
 
@@ -20,4 +21,4 @@ h2 Finished Games:
   p You have not finished any games.
 - else
   - @finished_games.each do |game|
-    p = link_to "View Standings of Game ##{game.id}", game_path(game.id)
+      p = link_to "View Standings of Game ##{game.id}", game_path(game.id)

@@ -6,9 +6,10 @@ class GamesController < ApplicationController
   end
 
   def index
+    @user = User.find(session[:current_user]['id'])
     @pending_games = Game.pending
-    @in_progress_games = Game.in_progress
-    @finished_games = Game.finished
+    @in_progress_games = Game.in_progress.select { |game| game.users.include?(@user) }
+    @finished_games = Game.finished.select { |game| game.users.include?(@user) }
   end
 
   def create
