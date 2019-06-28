@@ -3,7 +3,7 @@
   h1 = "Game #{@game.id}"
   p Your game is pending...
   p = "You asked for #{@game['player_count']} players..."
-  p = link_to "Autofill empty slots with bots", fill_with_robots_game_path(@game.id), method: :post
+  p.autofill = link_to "Autofill empty slots with bots", fill_with_robots_game_path(@game.id), method: :post
 
 
   p Lobby:

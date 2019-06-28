@@ -65,6 +65,18 @@ RSpec.describe 'Create Game', type: :system do
     session1.driver.refresh
     expect(session1.text).to have_text('Game Over')
     expect(session1.text).to have_text('Charlos1 had 3 point(s)')
+  end
 
+  it 'can autofill the game with bots' do
+    session1, session2 = GameHelper.initialize_sessions
+    game = Game.create(player_count: 2)
+
+    GameHelper.login_users([session1])
+
+    GameHelper.join_two_player_game([session1], game)
+
+    session1.find('.autofill').click
+
+    expect(session1).to have_text('Bot 1')
   end
 end
