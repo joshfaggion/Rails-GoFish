@@ -16,7 +16,7 @@ h2 In Progress Games:
   p You are not currently in any active games.
 - else
   - @in_progress_games.each do |game|
-    p = link_to "Resume Game ##{game.id}", game_path(game.id)
+    p = link_to "Resume Game ##{game.id} - #{game.go_fish.in_progress_state(current_user.name)}", game_path(game.id)
 h2 Finished Games:
 - if @finished_games.blank?
   p You have not finished any games.

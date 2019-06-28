@@ -165,6 +165,14 @@ class GoFish
     end
   end
 
+  def in_progress_state(name)
+    player = @players[@turn].name
+    if player == name
+      return 'Your Turn'
+    end
+    return "#{player}'s Turn"
+  end
+
   def state_for(player_name)
     player = find_player_by_name(player_name)
     {
