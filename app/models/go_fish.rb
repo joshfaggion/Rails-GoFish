@@ -11,7 +11,7 @@ class GoFish
       end
       index = 0
       while @players.length < player_count
-        bot = Player.new(name: "Bot #{index += 1}")
+        bot = Player.new(name: "Bot #{index += 1} ", bot: true)
         @players.push(bot)
         @bots.push(bot)
       end
@@ -46,23 +46,33 @@ class GoFish
     end
   end
 
+  def run_bot_request(current_player, target_player, rank)
+    player = find_player_by_name(current_player)
+    target = find_player_by_name(target_player)
+    result = target.card_in_hand(rank)
+  end
+
   def play_round(current_player, target_player, rank)
     player = find_player_by_name(current_player)
     target = find_player_by_name(target_player)
     result = target.card_in_hand(rank)
+    updateGameLog(result: result, rank: rank, player: player, target: target)
     if result == 'Go Fish!'
       if @deck.cards_left > 0
         player.take_cards(@deck.top_card)
         player.pair_cards
       end
-      next_turn()
+      unless player.bot
+        next_turn()
+      end
     else
       player.take_cards(result)
       player.pair_cards
     end
-    updateGameLog(result: result, rank: rank, player: player, target: target)
     card_refills
-    skip_finished_players
+    unless player.bot
+      skip_finished_players()
+    end
   end
 
   def stats
@@ -106,6 +116,27 @@ class GoFish
     if @turn == @players.length
       @turn = 0
     end
+    if @players[@turn].bot
+      run_bot_turns()
+    end
+    # then switch turn to 0 to get back to the first player
+  end
+
+  def run_bot_turns
+    @bots.each_with_index do |bot, index|
+      bot_targets = pick_bot_targets(bot)
+      play_round(bot_targets[0], bot_targets[1], bot_targets[2])
+    end
+    @turn = 0
+  end
+
+  def pick_bot_targets(bot)
+    target_rank = bot.cards.sample.rank
+    target_player = bot
+    while target_player.name == bot.name
+      target_player = @players.sample()
+    end
+    return [bot.name(), target_player.name(), target_rank]
   end
 
   def find_player_by_name(name)
@@ -144,8 +175,7 @@ class GoFish
       'opponents' => opponents_to(player_name),
       'deck_amount' => deck().cards_left,
       'game_active' => "#{any_players_have_cards()}",
-      'log' => log_as_json(),
-      'bots' => bots().map(&:as_json)
+      'log' => log_as_json()
     }
   end
 

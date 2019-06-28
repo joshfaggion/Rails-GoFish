@@ -1,13 +1,15 @@
 class Player
-  attr_reader :cards, :name, :matches, :points
-  def initialize(name:, cards: [], matches: [], points: 0)
+  attr_reader :cards, :name, :matches, :points, :bot
+  def initialize(name:, cards: [], matches: [], points: 0, bot: false)
     @name = name
     @matches = matches
     @points = points.to_i
+    @bot = bot
     if cards.length == 0
       @cards = []
     else
       @cards = cards
+      @bot = bot
     end
   end
 
@@ -54,17 +56,26 @@ class Player
     end
   end
 
+  def self.to_b(bool)
+    if bool === 'true'
+      true
+    else
+      false
+    end
+  end
+
   def as_json
     {
       "name" => @name,
       "cards" => @cards.map(&:as_json),
       "matches" => @matches.map(&:as_json),
-      "points" => "#{@points}"
+      "points" => "#{@points}",
+      "bot" => "#{@bot}"
     }
   end
 
   def self.from_json(json)
     cards = json['cards'].map { |card| Card.new(rank: card['rank'], suit: card['suit'])}
-    self.new(name: json['name'], cards: cards, matches: json['matches'], points: json['points'])
+    self.new(bot: self.to_b(json['bot']), name: json['name'], cards: cards, matches: json['matches'], points: json['points'])
   end
 end

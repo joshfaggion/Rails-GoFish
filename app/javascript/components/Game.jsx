@@ -22,7 +22,6 @@ class Game extends React.Component {
       log: Array.from(props.playerData.log),
       requestingPlayer: props.playerData.requesting_player,
     }
-    console.log(props)
   }
 
   componentDidMount() {
@@ -36,7 +35,6 @@ class Game extends React.Component {
     const channel = pusher.subscribe('go-fish')
     // Use game id to make this unique
     channel.bind('game-changed', (data) => {
-      console.log(data.message)
       this.updateGame()
     })
   }
@@ -103,9 +101,9 @@ class Game extends React.Component {
 
   renderHeader() {
     if (this.state.isTurn === 'true') {
-      return <h2>It's your turn.</h2>
+      return <h2 className="centered">It's your turn.</h2>
     }
-    return <h2>Waiting for {this.state.requestingPlayer} to make their move...</h2>
+    return <h2 className="centered">Waiting for {this.state.requestingPlayer} to make their move...</h2>
   }
 
   renderRequestButton() {
@@ -132,7 +130,7 @@ class Game extends React.Component {
   renderActiveGame() {
     return (
       <div>
-        <h1>Game {this.props.id} - in progress</h1>
+        <h1 className="centered">Game {this.props.id} - in progress</h1>
         {this.renderHeader()}
         <div className="bots">
           {this.state.opponents.map(bot => <BotView isTurn={this.state.isTurn} updateSelectedPlayer={this.updateSelectedPlayer.bind(this)} selectedPlayer={this.state.selectedPlayer} key={bot.name()} bot={bot} />)}
