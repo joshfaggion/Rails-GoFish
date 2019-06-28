@@ -8,8 +8,8 @@ class GamesController < ApplicationController
   def index
     @user = User.find(session[:current_user]['id'])
     @pending_games = Game.pending
-    @in_progress_games = Game.in_progress.select { |game| game.users.include?(@user) }
-    @finished_games = Game.finished.select { |game| game.users.include?(@user) }
+    @in_progress_games = @user.games.in_progress
+    @finished_games = @user.games.finished
   end
 
   def instructions
